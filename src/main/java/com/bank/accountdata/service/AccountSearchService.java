@@ -34,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AccountSearchService {
 
 	private static final String DATE_FORMAT = "dd.MM.yyyy";
+
 	@Autowired
 	AccountSearchDao accountSearchDao;
 

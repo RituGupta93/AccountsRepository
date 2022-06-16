@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MvcResult;
@@ -160,13 +161,14 @@ public class AccountSearchControllerTest extends AccountDataApplicationTests {
 	@WithUserDetails("admin")
 	public void accountSearch_AfterLoginPassToken_then200() throws Exception {
 		// Login
-		UserRequest userRequest = UserRequest.builder().username("user").password("user").build();
+		UserRequest userRequest = UserRequest.builder().username("admin").password("admin").build();
 		String inputJson = super.mapToJson(userRequest);
 		MvcResult result = mvc.perform(MockMvcRequestBuilders.post("/bank/login")
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andExpect(status().isOk())
 				.andReturn();
 		TokenResponse tokenResponse = super.mapFromJson(result.getResponse().getContentAsString(), TokenResponse.class);
 		assertNotNull(tokenResponse.getToken());
+		SecurityContextHolder.getContext().setAuthentication(null);
 		String uri = "/bank/account/search";
 		AccountSearchRequest accountSearchRequest = AccountSearchRequest.builder().accountId("2").toDate("14.10.2020")
 				.fromDate("09.08.2020").toAmount("680").fromAmount("535.88").build();
