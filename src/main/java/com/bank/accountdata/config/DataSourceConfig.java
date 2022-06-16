@@ -25,10 +25,10 @@ public class DataSourceConfig {
 
 	@Bean
 	public DataSource createDataSource() throws PropertyVetoException {
-		ComboPooledDataSource ds = new ComboPooledDataSource();
-		ds.setJdbcUrl(url);
-		ds.setDriverClass(driver);
-		return ds;
+		ComboPooledDataSource dataSource = new ComboPooledDataSource();
+		dataSource.setJdbcUrl(url);
+		dataSource.setDriverClass(driver);
+		return dataSource;
 	}
 
 }
