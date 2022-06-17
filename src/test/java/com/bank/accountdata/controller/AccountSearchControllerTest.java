@@ -159,6 +159,18 @@ public class AccountSearchControllerTest extends AccountDataApplicationTests {
 
 	@Test
 	@WithUserDetails("admin")
+	public void accountSearch_whenAmountParseIssueAndRoleIsAdmin_then400() throws Exception {
+		String uri = "/bank/account/search";
+		AccountSearchRequest accountSearchRequest = AccountSearchRequest.builder().accountId("2").toDate("01.10.2020")
+				.fromDate("09.08.2020").toAmount("680").fromAmount("535abc.88").build();
+		String inputJson = super.mapToJson(accountSearchRequest);
+		mvc.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson))
+				.andExpect(status().isBadRequest())
+				.andExpect(content().string("Please enter amount in number format."));
+	}
+
+	@Test
+	@WithUserDetails("admin")
 	public void accountSearch_AfterLoginPassToken_then200() throws Exception {
 		// Login
 		UserRequest userRequest = UserRequest.builder().username("admin").password("admin").build();

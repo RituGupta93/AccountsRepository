@@ -55,6 +55,9 @@ public class AccountSearchService {
 			log.error("Error parsing date passed in request " + e.getMessage());
 			throw new AccountSearchException(
 					"Error parsing date passed in request. Please enter date in dd.MM.yyyy format.");
+		} catch (NumberFormatException e) {
+			log.error("Error parsing amount " + e.getMessage());
+			throw new AccountSearchException("Please enter amount in number format.");
 		}
 		return null;
 	}
