@@ -11,7 +11,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -112,7 +111,6 @@ public class UserService {
 						&& Boolean.FALSE.equals(jwtTokenUtil.isTokenExpired((String) token.get()))) {
 					log.info("Logging out user....");
 					cache.evict(username);
-					SecurityContextHolder.getContext().setAuthentication(null);
 					return new ResponseEntity<>("User is logged out successfully", HttpStatus.OK);
 				}
 			}
